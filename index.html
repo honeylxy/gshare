@@ -1,0 +1,311 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1, minimum-scale=1,maximum-scale=1">
+    <link href="https://cdn.bootcss.com/Swiper/4.2.2/css/swiper.min.css" rel="stylesheet">
+    <title>抖游小游戏</title>
+    <style>
+        @font-face {
+            font-family: 'iconfont';
+            src: url('./font/iconfont.eot');
+            src: url('./font/iconfont.eot?#iefix') format('embedded-opentype'),
+            url('./font/iconfont.woff') format('woff'),
+            url('./font/iconfont.ttf') format('truetype'),
+            url('./font/iconfont.svg#iconfont') format('svg');
+        }
+        .iconfont{
+            font-family:"iconfont" !important;
+            font-size:16px;font-style:normal;
+            -webkit-font-smoothing: antialiased;
+            -webkit-text-stroke-width: 0.2px;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        *{margin:0;padding:0;}
+        #box{position: fixed;width: 100%;height: 100%;left: 0;top:0;}
+        #box .game{position: absolute;width: 100%;height: 100%;left: 0;top:0;z-index: 999;background: #fff;}
+        #box .game .icon{position: absolute;left:0;top:0;z-index: 888;width: 100%;height: 100%;background-repeat: no-repeat;background-position: center;background-size: cover;}
+        #box .game .icon a{position: absolute;width: 270px;height: 50px;background: #FFD65B;border-radius: 27px;color:#000;text-decoration: none;font-size: 18px;text-align: center;line-height: 50px;bottom: 100px;left: calc(50% - 135px);box-shadow: 0px 3px 21px rgba(0,0,0,.3);}
+        #box .game iframe{position: absolute;z-index: 777;background-color: #333;}
+        #box .game .icon a img{width: 40px;vertical-align: middle;}
+        #box .swiper-container{position: absolute;left: 0;top:100%;width: 100%;height: 100%;z-index: 990;}
+        #mask{background: url('./img/bg.gif') no-repeat;background-position: center;background-size: cover;}
+        #mask::after{content: "";display: block;width: 100%;height: 100%;position: absolute;left: 0;top:0;background-color: rgba(0,0,0,.8);z-index: 88;}
+        #box .swiper-container .swiper-wrapper .swiper-slide .download{display: block;width: 208px;position: absolute;bottom: 20px;left: calc(50% - 104px);z-index: 99;}
+        #box .swiper-container .swiper-wrapper .swiper-slide h4{text-align: center;color: #fff;position: absolute;bottom: 105px;
+            font-size: 16px;font-weight: 400;width: 100%; font-family: "microft Yahei";z-index: 99;}
+        #box .swiper-container .swiper-wrapper .swiper-slide .logo1{
+            position: absolute;left: calc(50% - 89px);top:15px;z-index: 70;
+        }
+        #box .swiper-container .swiper-wrapper .swiper-slide .title{position:absolute;color:#fff;width: 100%;text-align: center;top:120px;}
+        #box .swiper-container .swiper-wrapper .swiper-slide .title h3{font-size: 30px;margin-bottom: 10px;}
+        #box .swiper-container .swiper-wrapper .swiper-slide .title p{font-size: 18px;}
+        #box .swiper-container .swiper-wrapper .swiper-slide .next{position: absolute;left: calc(50% - 14px);bottom: 20px; -webkit-animation:animations 1s ease-out infinite; -moz-animation:animations 1s ease-out infinite;animation:animations 1s ease-out infinite;}
+        #mv1,#mv2,#mv3{position: absolute;z-index: 90;}
+        #mv1{top:250px;left:calc(50% - 142px);}
+        .mv1{-webkit-animation:mv1 0.5s ease-in 0s 1 forwards,mv11 10s ease-in-out 0.5s infinite alternate; -moz-animation:mv1 0.5s ease-in 0s 1 forwards,mv11 10s ease-in-out 0.5s infinite alternate;animation:mv1 0.5s ease-in 0s 1 forwards,mv11 10s ease-in-out 0.5s infinite alternate;}
+        #mv2{top:250px;left:calc(50% - 142px);}
+        .mv2{-webkit-animation:mv2 0.5s ease-in-out 0s 1 forwards,mv22 8s ease-in-out 0.5s infinite alternate; -moz-animation:mv2 0.5s ease-in-out 0s 1 forwards,mv22 8s ease-in-out 0.5s infinite alternate;animation:mv2 0.5s ease-in-out 0s 1 forwards,mv22 8s ease-in-out 0.5s infinite alternate;}
+        #mv3{top: 385px;left: calc(50% - 119px);z-index: 88;}
+        .mv3{-webkit-animation:game 0.5s ease-in-out 0s 1 forwards,games 8s ease-in-out 0.5s infinite alternate; -moz-animation:game 0.5s ease-in-out 0s 1 forwards,games 8s ease-in-out 0.5s infinite alternate;animation:game 0.5s ease-in-out 0s 1 forwards,games 8s ease-in-out 0.5s infinite alternate;}
+        #m1,#m2,#m3,#m4,#m5{position: absolute;}
+        #m1{left: 10px;z-index: 15;top:-115px;-webkit-animation:Top 8s ease-in-out infinite alternate; -moz-animation:Top 8s  ease-in-out infinite alternate;animation:Top 8s ease-in-out infinite alternate;}
+        #m2{z-index: 8;right: calc(50% - 68px);top:160px;opacity: 0;}
+        .m2Move{-webkit-animation:animationRight 0.5s ease-out 0s 1 forwards; -moz-animation:animationRight 0.5s ease-out 0s 1 forwards;animation:animationRight 0.5s ease-out 0s 1 forwards;}
+        #m3{z-index: 8;left: calc(50% - 68px);top:160px;opacity: 0;}
+        .m3Move{-webkit-animation:animationLeft 0.5s ease-out 0s 1 forwards; -moz-animation:animationLeft 0.5s ease-out 0s 1 forwards;animation:animationLeft 0.5s ease-out 0s 1 forwards;}
+        #m4{left: calc(50% - 117px);top:85px;z-index: 10;}
+        #m5{z-index: 15;left:calc(50%  - 150px);top:120px;-webkit-animation:TopT 8s ease-in-out infinite alternate; -moz-animation:TopT 8s ease-in-out infinite alternate;animation:TopT 8s ease-in-out infinite alternate;}
+
+
+        /*底部三角动画*/
+        @-webkit-keyframes animations{
+            0%{bottom:20px;opacity:1;}
+            100%{bottom:5px;opacity:0;}
+        }
+        @-moz-keyframes animations{
+            0%{bottom:20px;opacity:1;}
+            100%{bottom:5px;opacity:0;}
+        }
+        @keyframes animations{
+            0%{bottom:20px;opacity:1;}
+            100%{bottom:5px;opacity:0;}
+        }
+
+        /*介绍页第一屏的右侧图片动画*/
+        @-webkit-keyframes animationRight{
+            0%{right: calc(50% - 68px);opacity:0;}
+            100%{right:25px;opacity:1;}
+        }
+        @-moz-keyframes animationRight{
+            0%{right: calc(50% - 68px);opacity:0;}
+            100%{right:25px;opacity:1;}
+        }
+        @keyframes animationRight{
+            0%{right: calc(50% - 68px);opacity:0;}
+            100%{right:25px;opacity:1;}
+        }
+
+        /*介绍页第一屏的左侧图片动画*/
+        @-webkit-keyframes animationLeft{
+            0%{left: calc(50% - 68px);opacity:0;}
+            100%{left:25px;opacity:1;}
+        }
+        @-moz-keyframes animationLeft{
+            0%{left: calc(50% - 68px);opacity:0;}
+            100%{left:25px;opacity:1;}
+        }
+        @keyframes animationLeft{
+            0%{left: calc(50% - 68px);opacity:0;}
+            100%{left:25px;opacity:1;}
+        }
+
+        /*介绍页第一屏的其他动画*/
+        @-webkit-keyframes Top{
+            0%{-moz-transform:translateY(30px);-webkit-transform:translateY(30px);transform:translateY(30px);}
+            100%{-moz-transform:translateY(0px);-webkit-transform:translateY(0px);transform:translateY(0px);}
+        }
+        @-moz-keyframes Top{
+            0%{-moz-transform:translateY(30px);-webkit-transform:translateY(30px);transform:translateY(30px);}
+            100%{-moz-transform:translateY(0px);-webkit-transform:translateY(0px);transform:translateY(0px);}
+        }
+        @keyframes Top{
+            0%{-moz-transform:translateY(30px);-webkit-transform:translateY(30px);transform:translateY(30px);}
+            100%{-moz-transform:translateY(0px);-webkit-transform:translateY(0px);transform:translateY(0px);}
+        }
+        /*介绍页第一屏的其他动画*/
+        @-webkit-keyframes TopT{
+            0%{-moz-transform:translateY(-40px);-webkit-transform:translateY(-40px);transform:translateY(-40px);}
+            100%{-moz-transform:translateY(0px);-webkit-transform:translateY(0px);transform:translateY(0px);}
+        }
+        @-moz-keyframes TopT{
+            0%{-moz-transform:translateY(-40px);-webkit-transform:translateY(-40px);transform:translateY(-40px);}
+            100%{-moz-transform:translateY(0px);-webkit-transform:translateY(0px);transform:translateY(0px);}
+        }
+        @keyframes TopT{
+            0%{-moz-transform:translateY(-40px);-webkit-transform:translateY(-40px);transform:translateY(-40px);}
+            100%{-moz-transform:translateY(0px);-webkit-transform:translateY(0px);transform:translateY(0px);}
+        }
+
+        /*介绍页第二屏的#mv1进入动画*/
+        @-webkit-keyframes mv1{
+            0%{-moz-transform:translateY(250px);-webkit-transform:translateY(250px);transform:translateY(250px);}
+            100%{-moz-transform:translateY(0px);-webkit-transform:translateY(0px);transform:translateY(0px);}
+        }
+        @-moz-keyframes mv1{
+            0%{-moz-transform:translateY(250px);-webkit-transform:translateY(250px);transform:translateY(250px);}
+            100%{-moz-transform:translateY(0px);-webkit-transform:translateY(0px);transform:translateY(0px);}
+        }
+        @keyframes mv1{
+            0%{-moz-transform:translateY(250px);-webkit-transform:translateY(250px);transform:translateY(250px);}
+            100%{-moz-transform:translateY(0px);-webkit-transform:translateY(0px);transform:translateY(0px);}
+        }
+        /*介绍页第二屏的mv2动画*/
+        @-webkit-keyframes mv2{
+            0%{-moz-transform:translateY(180px);-webkit-transform:translateY(180px);transform:translateY(180px);}
+            100%{-moz-transform:translateY(0px);-webkit-transform:translateY(0px);transform:translateY(0px);}
+        }
+        @-moz-keyframes mv2{
+            0%{-moz-transform:translateY(180px);-webkit-transform:translateY(180px);transform:translateY(180px);}
+            100%{-moz-transform:translateY(0px);-webkit-transform:translateY(0px);transform:translateY(0px);}
+        }
+        @keyframes mv2{
+            0%{-moz-transform:translateY(180px);-webkit-transform:translateY(180px);transform:translateY(180px);}
+            100%{-moz-transform:translateY(0px);-webkit-transform:translateY(0px);transform:translateY(0px);}
+        }
+
+        /*介绍页第二屏的#mv1缓动动画*/
+        @-webkit-keyframes mv11{
+            0%{-moz-transform:translateY(0px);-webkit-transform:translateY(0px);transform:translateY(0px);}
+            100%{-moz-transform:translateY(20px);-webkit-transform:translateY(20px);transform:translateY(20px);}
+        }
+        @-moz-keyframes mv11{
+            0%{-moz-transform:translateY(0px);-webkit-transform:translateY(0px);transform:translateY(0px);}
+            100%{-moz-transform:translateY(20px);-webkit-transform:translateY(20px);transform:translateY(20px);}
+        }
+        @keyframes mv11{
+            0%{-moz-transform:translateY(0px);-webkit-transform:translateY(0px);transform:translateY(0px);}
+            100%{-moz-transform:translateY(20px);-webkit-transform:translateY(20px);transform:translateY(20px);}
+        }
+        /*介绍页第二屏的#mv2缓动动画*/
+        @-webkit-keyframes mv22{
+            0%{-moz-transform:translateY(0px);-webkit-transform:translateY(0px);transform:translateY(0px);}
+            100%{-moz-transform:translateY(-20px);-webkit-transform:translateY(-20px);transform:translateY(-20px);}
+        }
+        @-moz-keyframes mv22{
+            0%{-moz-transform:translateY(0px);-webkit-transform:translateY(0px);transform:translateY(0px);}
+            100%{-moz-transform:translateY(-20px);-webkit-transform:translateY(-20px);transform:translateY(-20px);}
+        }
+        @keyframes mv22{
+            0%{-moz-transform:translateY(0px);-webkit-transform:translateY(0px);transform:translateY(0px);}
+            100%{-moz-transform:translateY(-20px);-webkit-transform:translateY(-20px);transform:translateY(-20px);}
+        }
+        /*介绍页第二屏的游戏手柄进入动画*/
+        @-webkit-keyframes game{
+            0%{-moz-transform:translateY(200px);-webkit-transform:translateY(200px);transform:translateY(200px);}
+            100%{-moz-transform:translateY(0px);-webkit-transform:translateY(0px);transform:translateY(0px);}
+        }
+        @-moz-keyframes game{
+            0%{-moz-transform:translateY(200px);-webkit-transform:translateY(200px);transform:translateY(200px);}
+            100%{-moz-transform:translateY(0px);-webkit-transform:translateY(0px);transform:translateY(0px);}
+        }
+        @keyframes game{
+            0%{-moz-transform:translateY(200px);-webkit-transform:translateY(200px);transform:translateY(200px);}
+            100%{-moz-transform:translateY(0px);-webkit-transform:translateY(0px);transform:translateY(0px);}
+        }
+        /*介绍页第二屏的游戏手柄缓动动画*/
+        @-webkit-keyframes games{
+            0%{-moz-transform:translateY(0px);-webkit-transform:translateY(0px);transform:translateY(0px);}
+            100%{-moz-transform:translateY(20px);-webkit-transform:translateY(20px);transform:translateY(20px);}
+        }
+        @-moz-keyframes games{
+            0%{-moz-transform:translateY(0px);-webkit-transform:translateY(0px);transform:translateY(0px);}
+            100%{-moz-transform:translateY(20px);-webkit-transform:translateY(20px);transform:translateY(20px);}
+        }
+        @keyframes games{
+            0%{-moz-transform:translateY(0px);-webkit-transform:translateY(0px);transform:translateY(0px);}
+            100%{-moz-transform:translateY(20px);-webkit-transform:translateY(20px);transform:translateY(20px);}
+        }
+    </style>
+</head>
+<body>
+    <div id="box">
+        <div class="game">
+            <div class="icon">
+                <a href="javascript:void(0)"><i class="iconfont">&#xe517;</i>&nbsp;开始游戏</a>
+            </div>
+            <iframe id="gg" src="" width="100%" height="100%" scrolling="no" frameborder="0" marginwidth="0" marginheight="0"></iframe>
+        </div>
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide" style="background-color: #8831FF;">
+                    <img class="logo1" src="img/logo1.png" width="178" alt="">
+                    <img id="m1" src="img/page1-1.png" width="295">
+                    <img id="m2" src="img/page1-2.png" width="136">
+                    <img id="m3" src="img/page1-3.png" width="136">
+                    <img id="m4" src="img/page1-4.png" width="234">
+                    <img id="m5" src="img/page1-5.png" width="300">
+                    <h4>游戏交友，从此告别尬聊</h4>
+                    <a class="download" href=""><img src="img/download.png" width="100%"></a>
+                    <img class="next" src="img/next.png" width="28">
+                </div>
+                <div class="swiper-slide" style="background-color: #FF4282;">
+                    <img class="logo1" src="img/logo1.png" width="178" alt="">
+                    <div class="title">
+                        <h3>用游戏认识彼此</h3>
+                        <p>多款游戏，总能让你遇见对的Ta</p>
+                    </div>
+                    <img id="mv1" src="img/page2-1.png" width="284">
+                    <img id="mv2"  src="img/page2-2.png" width="284">
+                    <img id="mv3"  src="img/page2-3.png" width="238">
+                    <a class="download" href=""><img src="img/download.png" width="100%"></a>
+                    <img class="next" src="img/next.png" width="28">
+                </div>
+                <div class="swiper-slide" id="mask">
+                    <img src="img/logo.png" width="96" style="position: absolute;z-index: 99;top: 104px;left: calc(50% - 48px);">
+                    <h4>玩游戏，交朋友</h4>
+                    <a class="download" href=""><img src="img/download.png" width="100%"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script src="https://cdn.bootcss.com/jquery/1.8.2/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/Swiper/3.4.0/js/swiper.min.js"></script>
+<script>
+    var timer = 15;
+    var imgurl = GetUrl("imgurl") || "http%3a%2f%2fdougame.woso.cn%2fpub%2fimgg%2f18%2fbg.png";
+    var gameurl = GetUrl("gameurl") || "http%3a%2f%2fdougamecdn.woso.cn%2fgames%2ftyt%2f";
+    imgurl = decodeURIComponent(imgurl);
+    gameurl = decodeURIComponent(gameurl);
+    $(".icon").css("background-image","url('"+imgurl+"')");
+    $('.icon a').click(function () {
+        $("#gg").attr("src",gameurl);
+        $(this).parent(".icon").delay(200).hide();
+        var t = setInterval(function () {
+            timer--;
+            if(timer <= 0){
+                $('.game').slideUp(300);
+                $("#gg").attr("src","");
+                $('#box .swiper-container').animate({top:0},300);
+                timer =0;
+                clearInterval(t);
+                $("#m2").addClass("m2Move");
+                $("#m3").addClass("m3Move");
+            }
+        },1000);
+    });
+
+    var mySwiper = new Swiper('.swiper-container', {
+        direction : 'vertical',
+        loop: false,
+        onSlideChangeStart : function (swiper) {
+            if(swiper.activeIndex == 0){
+                $("#m2").addClass("m2Move");
+                $("#m3").addClass("m3Move");
+                $("#mv1").removeClass("mv1");
+                $("#mv2").removeClass("mv2");
+                $("#mv3").removeClass("mv3");
+            }else if(swiper.activeIndex == 1){
+                setTimeout(function () {
+                    $("#m2").removeClass("m2Move");
+                    $("#m3").removeClass("m3Move");
+                },100);
+                $("#mv1").addClass("mv1");
+                $("#mv2").addClass("mv2");
+                $("#mv3").addClass("mv3");
+            }else{
+                $("#mv1").removeClass("mv1");
+                $("#mv2").removeClass("mv2");
+                $("#mv3").removeClass("mv3");
+            }
+        }
+    });
+    function GetUrl(name){
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null)return  unescape(r[2]); return null;
+    }
+</script>
+</body>
+</html>
